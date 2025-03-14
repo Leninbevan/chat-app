@@ -7,13 +7,30 @@
   import Avatar from "../avatar/avatar.svelte";
   import AvatarImage from "../avatar/avatar-image.svelte";
   import AvatarFallback from "../avatar/avatar-fallback.svelte";
+  import { authClient } from "$lib/auth-client";
+  import { goto } from "$app/navigation";
+  import { toast } from "svelte-sonner";
 
-  let {
-    versions,
-    defaultVersion,
-  }: { versions: string[]; defaultVersion: string } = $props();
+  let { options }: { options: any } = $props();
 
-  let selectedVersion = $state(defaultVersion);
+  const signout = async () => {
+    try {
+      await authClient.signOut({
+        fetchOptions: {
+          onSuccess: () => {
+            toast.success("Logged-out successful!");
+            goto("/");
+          },
+          onError: () => {
+            toast.error("Logged-out failed!");
+          },
+        },
+      });
+    } catch (error) {
+      console.error("Signout failed:", error);
+    }
+  };
+  
 </script>
 
 <Sidebar.Menu>
@@ -42,14 +59,9 @@
         class="w-[var(--bits-dropdown-menu-anchor-width)]"
         align="start"
       >
-        {#each versions as version (version)}
-          <DropdownMenu.Item onSelect={() => (selectedVersion = version)}>
-            v{version}
-            {#if version === selectedVersion}
-              <Check class="ml-auto" />
-            {/if}
-          </DropdownMenu.Item>
-        {/each}
+        <DropdownMenu.Item onSelect={signout}>
+          {options}
+        </DropdownMenu.Item>
       </DropdownMenu.Content>
     </DropdownMenu.Root>
   </Sidebar.MenuItem>
