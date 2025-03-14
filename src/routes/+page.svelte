@@ -1,11 +1,11 @@
 <script lang="ts">
-  import { z } from "zod";
-  import { toast } from "svelte-sonner";
+  import { goto } from "$app/navigation";
+  import { authClient } from "$lib/auth-client";
+  import Button from "$lib/components/ui/button/button.svelte";
   import { Input } from "$lib/components/ui/input/index";
   import { Label } from "$lib/components/ui/label/index.js";
-  import Button from "$lib/components/ui/button/button.svelte";
-  import { login } from "../auth";
-  import { goto } from "$app/navigation";
+  import { toast } from "svelte-sonner";
+  import { z } from "zod";
 
   let email = "";
   let password = "";
@@ -36,10 +36,15 @@
     }
 
     try {
-      await login(email, password);
-      toast.success("Login successful!");
-      goto("/discover");
+      const { data, error } = await authClient.signIn.email({
+        email,
+        password,
+      });
+        toast.success("Login successful!");
+        goto("/discover");
     } catch (error: any) {
+      console.log("error", error);
+
       toast.error(error.message);
     }
   }

@@ -1,6 +1,6 @@
 <script lang="ts" module>
   const data = {
-    versions: ["1.0.1", "1.1.0-alpha", "2.0.0-beta1"],
+    options: "Signout",
     navMain: [
       {
         title: "Discover",
@@ -49,6 +49,7 @@
   import type { SvelteComponent } from "svelte";
   import Avatar from "$lib/components/ui/avatar/avatar.svelte";
   import { AvatarFallback, AvatarImage } from "$lib/components/ui/avatar";
+  import { Toaster } from "svelte-sonner";
 
   function handleNavigate(endPoint: string): void {
     if (endPoint) {
@@ -60,6 +61,7 @@
   let restProps: Partial<ComponentProps<typeof Sidebar.Root>> = {};
 </script>
 
+<Toaster position="top-right" />
 {#if $page.url.pathname !== "/"}
   <Sidebar.Provider>
     <Sidebar.Root {...restProps} bind:this={ref}>
@@ -130,10 +132,7 @@
         </div>
       </Sidebar.Content>
       <Sidebar.Footer>
-        <MenuSwitcher
-          versions={data.versions}
-          defaultVersion={data.versions[0]}
-        />
+        <MenuSwitcher options={data.options}/>
       </Sidebar.Footer>
       <Sidebar.Rail />
     </Sidebar.Root>
