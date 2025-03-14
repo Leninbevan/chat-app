@@ -68,6 +68,7 @@
 		class={cn(buttonVariants({ variant, size }), className)}
 		{type}
 		{...restProps}
+		on:click
 	>
 		{@render children?.()}
 	</button>
