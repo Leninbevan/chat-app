@@ -80,8 +80,8 @@
               </button>
             </Sidebar.GroupLabel>
             {#if group.items.length > 0}
-              <Sidebar.GroupContent class="pl-3">
-                <Sidebar.Menu class="border-l-2">
+              <Sidebar.GroupContent class="pl-4">
+                <Sidebar.Menu class="border-l-2 border-black">
                   {#each group.items as item (item.title)}
                     <Sidebar.MenuItem class="ml-2 font-bold">
                       <Sidebar.MenuButton
