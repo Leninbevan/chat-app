@@ -1,8 +1,8 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
-  import { authClient } from "$lib/auth-client";
+  import { authClient } from "$lib/auth-client.js";
   import Button from "$lib/components/ui/button/button.svelte";
-  import { Input } from "$lib/components/ui/input/index";
+  import { Input } from "$lib/components/ui/input/index.js";
   import { Label } from "$lib/components/ui/label/index.js";
   import { toast } from "svelte-sonner";
   import { z } from "zod";
@@ -36,12 +36,20 @@
     }
 
     try {
-      const { data, error } = await authClient.signIn.email({
+      await authClient.signIn.email({
         email,
         password,
+        fetchOptions: {
+          onSuccess: () => {
+            toast.success("Login successful!");
+            goto("/discover");
+          },
+          onError: (error:any) => {
+            toast.error(error?.message);
+          },
+        },
       });
-        toast.success("Login successful!");
-        goto("/discover");
+        
     } catch (error: any) {
       console.log("error", error);
 
