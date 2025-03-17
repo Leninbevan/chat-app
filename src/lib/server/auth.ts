@@ -1,12 +1,10 @@
 import { betterAuth } from 'better-auth';
-import { createPool } from 'mysql2/promise';
+import pg from 'pg';
+const { Pool } = pg;
 
 export const auth = betterAuth({
-  database: createPool({
-    host: 'localhost',
-    user: 'root',
-    password: 'root',
-    database: 'chatbot',
+  database:  new Pool({
+    connectionString: "postgres://postgres:postgres@localhost:5432/chatbot",
   }),
   emailAndPassword: {
     enabled: true, 
