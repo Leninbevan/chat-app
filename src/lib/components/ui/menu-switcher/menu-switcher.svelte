@@ -1,14 +1,10 @@
 <script lang="ts">
+  import { goto } from "$app/navigation";
+  import { authClient } from "$lib/auth-client";
   import * as DropdownMenu from "$lib/components/ui/dropdown-menu";
   import * as Sidebar from "$lib/components/ui/sidebar/index.js";
-  import Check from "@lucide/svelte/icons/check";
   import ChevronsUpDown from "@lucide/svelte/icons/chevrons-up-down";
-  import GalleryVerticalEnd from "@lucide/svelte/icons/gallery-vertical-end";
-  import Avatar from "../avatar/avatar.svelte";
-  import AvatarImage from "../avatar/avatar-image.svelte";
-  import AvatarFallback from "../avatar/avatar-fallback.svelte";
-  import { authClient } from "$lib/auth-client";
-  import { goto } from "$app/navigation";
+  import { UserRound } from "lucide-svelte";
   import { toast } from "svelte-sonner";
 
   let { options }: { options: any } = $props();
@@ -43,10 +39,9 @@
             class="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             {...props}
           >
-            <Avatar>
-              <AvatarImage src="https://github.com/shadcn.png" alt="chatbot" />
-              <AvatarFallback>chatbot</AvatarFallback>
-            </Avatar>
+          <div class="bg-gray-200 p-[7px] rounded-full">
+            <UserRound color="rgb(142 145 150)"/>
+          </div>
             <div class="flex flex-col gap-0.5 leading-none">
               <span class="font-semibold">Lenin Bevan</span>
               <span class="">leninbevan@gmail.com</span>
