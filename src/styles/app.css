@@ -1,3 +1,5 @@
+@import "./resusables/style.css";
+@import "./pages/mychats.css";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -72,15 +74,4 @@
   body {
     @apply bg-background text-foreground;
   }
-}
-
-.active {
-  background-color: #4a90e2;
-  color: white;
-  font-weight: bold;
-}
-button.active:hover, 
-.Sidebar.MenuButton.active:hover {
-  background-color: #4a90e2 !important;
-  color: white !important;
 }
