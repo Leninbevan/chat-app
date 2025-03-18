@@ -38,23 +38,28 @@
 </script>
 
 <script lang="ts">
-  import "../app.css";
-  import * as Sidebar from "$lib/components/ui/sidebar/index.js";
+  import { goto } from "$app/navigation";
   import { page } from "$app/stores";
   import MenuSwitcher from "$lib/components/ui/menu-switcher/menu-switcher.svelte";
-  import logo from "../assests/logo.jpg";
-  import type { ComponentProps } from "svelte";
-  import Separator from "$lib/components/ui/separator/separator.svelte";
-  import { goto } from "$app/navigation";
-  import type { SvelteComponent } from "svelte";
-  import Avatar from "$lib/components/ui/avatar/avatar.svelte";
-  import { AvatarFallback, AvatarImage } from "$lib/components/ui/avatar/index.js";
+  import * as Sidebar from "$lib/components/ui/sidebar/index.js";
+  import UserRound from "lucide-svelte/icons/user-round";
+  import Globe from "lucide-svelte/icons/globe";
+  import Plus from "lucide-svelte/icons/plus";
+  import type { ComponentProps, SvelteComponent } from "svelte";
   import { Toaster } from "svelte-sonner";
+  import logo from "../assests/logo.jpg";
+  import "../styles/app.css";
+  import Separator from "$lib/components/ui/separator/separator.svelte";
+  import { writable } from "svelte/store";
+  import { Button } from "$lib/components/ui/button/index.js";
 
-  function handleNavigate(endPoint: string): void {
-    if (endPoint) {
-      goto(endPoint).catch((err) => console.error("Navigation error:", err));
+  export let currentTabTitle = writable("");
+
+  function handleNavigate(endPoint: string, title: string = ""): void {
+    if (title) {
+      currentTabTitle.set(title);
     }
+    goto(endPoint).catch((err) => console.error("Navigation error:", err));
   }
 
   let ref: SvelteComponent | null = null;
@@ -68,26 +73,27 @@
       <Sidebar.Header class="p-0">
         <img src={logo} alt="logo" class="h-[64px]" />
       </Sidebar.Header>
+      <Separator />
       <Sidebar.Content class="gap-0">
         {#each data.navMain as group (group.title)}
           <Sidebar.Group
             class="pt-2 pr-2 pb-[2px] pl-2 !important cursor-pointer"
           >
             <Sidebar.GroupLabel
-              onclick={() => handleNavigate(group.url)}
-              class={`text-black font-bold ${$page.url.pathname === group.url ? "active" : ""}`}
+              onclick={() => handleNavigate(group.url, group.title)}
+              class={`pt-5 pb-5 pl-3  text-black ${$page.url.pathname === group.url ? "active" : ""}`}
             >
               <button class="text-sm">
                 {group.title}
               </button>
             </Sidebar.GroupLabel>
             {#if group.items.length > 0}
-              <Sidebar.GroupContent class="pl-4">
-                <Sidebar.Menu class="border-l-2 border-black">
+              <Sidebar.GroupContent class="pl-2">
+                <Sidebar.Menu>
                   {#each group.items as item (item.title)}
-                    <Sidebar.MenuItem class="ml-2 font-bold">
+                    <Sidebar.MenuItem class="ml-2">
                       <Sidebar.MenuButton
-                        class={$page.url.pathname === item.url ? "active" : ""}
+                        class={`pt-5 pb-5 pl-3 font-medium ${$page.url.pathname === item.url ? "active" : ""}`}
                         onclick={() => handleNavigate(item.url)}
                       >
                         {item.title}
@@ -102,46 +108,45 @@
         <div class="flex flex-col gap-2.5 px-4 mt-4">
           <div>Recent</div>
           <div
-            class="flex items-center justify-between p-4 text-lg border border-black"
+            class="flex items-center p-2 text-lg border rounded-[14px] gap-4"
           >
-            <div>
-              <Avatar>
-                <AvatarImage
-                  src="https://github.com/shadcn.png"
-                  alt="chatbot"
-                />
-                <AvatarFallback>chatbot</AvatarFallback>
-              </Avatar>
+            <div class="p-2 bg-gray-200 rounded-md">
+              <Globe color="rgb(142 145 150)" />
             </div>
-            <div>Space name</div>
+            <div class="text-base font-medium">Space name</div>
           </div>
           <div
-            class="flex items-center justify-between p-4 text-lg border border-black"
+            class="flex items-center p-2 text-lg border rounded-[14px] gap-4"
           >
-            <div>
-              <Avatar>
-                <AvatarImage
-                  src="https://github.com/shadcn.png"
-                  alt="chatbot"
-                />
-                <AvatarFallback>chatbot</AvatarFallback>
-              </Avatar>
+            <div class="p-2 bg-gray-200 rounded-md">
+              <UserRound color="rgb(142 145 150)" />
             </div>
-            <div>Agent name</div>
+            <div class="text-base font-medium">Agent name</div>
           </div>
         </div>
       </Sidebar.Content>
       <Sidebar.Footer>
-        <MenuSwitcher options={data.options}/>
+        <MenuSwitcher options={data.options} />
       </Sidebar.Footer>
       <Sidebar.Rail />
     </Sidebar.Root>
     <Sidebar.Inset>
-      <header class="flex h-16 shrink-0 items-center gap-2 border-b px-4">
-        <Sidebar.Trigger class="-ml-1" />
-        <Separator orientation="vertical" class="mr-2 h-4" />
-      </header>
-      <div class="p-8">
+      {#if !["/discover", "/spaces", "/characters", "/agents"].includes($page.url.pathname)}
+        <header class="flex h-16 shrink-0 items-center gap-2 border-b px-4">
+          <Sidebar.Trigger class="-ml-1" />
+          <Separator orientation="vertical" class="mr-2 h-4" />
+          <div class="flex justify-between w-full items-center">
+            <div class="text-lg font-semibold">{$currentTabTitle || "My Chats"}</div>
+            {#if $page.url.pathname === "/dashboard"}
+              <Button class="bg-black">
+                <Plus />
+                <div>New chat</div>
+              </Button>
+            {/if}
+          </div>
+        </header>
+      {/if}
+      <div class="m-8">
         <slot />
       </div>
     </Sidebar.Inset>
