@@ -43,13 +43,15 @@
   import MenuSwitcher from "$lib/components/ui/menu-switcher/menu-switcher.svelte";
   import * as Sidebar from "$lib/components/ui/sidebar/index.js";
   import UserRound from "lucide-svelte/icons/user-round";
-  import Globe from "lucide-svelte/icons/eye";
+  import Globe from "lucide-svelte/icons/globe";
+  import Plus from "lucide-svelte/icons/plus";
   import type { ComponentProps, SvelteComponent } from "svelte";
   import { Toaster } from "svelte-sonner";
   import logo from "../assests/logo.jpg";
   import "../styles/app.css";
   import Separator from "$lib/components/ui/separator/separator.svelte";
   import { writable } from "svelte/store";
+  import { Button } from "$lib/components/ui/button/index.js";
 
   export let currentTabTitle = writable("");
 
@@ -133,10 +135,18 @@
         <header class="flex h-16 shrink-0 items-center gap-2 border-b px-4">
           <Sidebar.Trigger class="-ml-1" />
           <Separator orientation="vertical" class="mr-2 h-4" />
-          <div class="text-lg font-semibold">{$currentTabTitle || ""}</div>
+          <div class="flex justify-between w-full items-center">
+            <div class="text-lg font-semibold">{$currentTabTitle || "My Chats"}</div>
+            {#if $page.url.pathname === "/dashboard"}
+              <Button class="bg-black">
+                <Plus />
+                <div>New chat</div>
+              </Button>
+            {/if}
+          </div>
         </header>
       {/if}
-      <div class="p-8">
+      <div class="m-8">
         <slot />
       </div>
     </Sidebar.Inset>

@@ -10,10 +10,10 @@
 <div class="flex flex-col">
   <div>
     <h1 class="text-lg font-bold md:text-2xl">Discover</h1>
-    <div>Text that will describe the page in brief</div>
+    <div class="text-muted-foreground">Text that will describe the page in brief</div>
     <div>
       <div class="flex items-center gap-4 text-center py-[30px]">
-        <Select.Root>
+        <Select.Root type="single">
           <Select.Trigger class="w-[180px] rounded-md box-shadow"
             >Spaces</Select.Trigger
           >

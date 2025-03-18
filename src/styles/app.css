@@ -1,4 +1,5 @@
 @import "./resusables/style.css";
+@import "./pages/mychats.css";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

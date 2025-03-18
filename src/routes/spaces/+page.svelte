@@ -4,12 +4,13 @@
   import * as Card from "$lib/components/ui/card/index.js";
   import UserRound from "lucide-svelte/icons/user-round";
   import Eye from "lucide-svelte/icons/eye";
+  import { Button } from "$lib/components/ui/button/index.js";
 </script>
 
 <div class="flex flex-col">
   <div>
     <h1 class="text-lg font-bold md:text-2xl">Spaces</h1>
-    <div>Text that will describe the page in brief</div>
+    <div class="text-muted-foreground">Text that will describe the page in brief</div>
     <div>
       <div class="py-[30px]">
         <div class="relative">
@@ -25,9 +26,9 @@
       </div>
     </div>
   </div>
-  <div class="flex flex-wrap gap-y-5 gap-x-10 mt-4">
+  <div class="flex flex-wrap gap-y-5 gap-x-10 mt-4 mb-6">
     <Card.Root
-      class="flex items-center p-4 w-fit rounded-xl box-shadow gap-x-[20px] w-full max-w-[620px]"
+      class="flex items-center p-4 w-fit rounded-xl box-shadow gap-x-[20px] w-full max-w-[610px]"
     >
       <div class="rounded-md p-7 bg-gray-200">
         <UserRound />
@@ -58,7 +59,7 @@
       </div>
     </Card.Root>
     <Card.Root
-      class="flex items-center p-4 w-fit rounded-xl box-shadow gap-x-[20px] w-full max-w-[620px]"
+      class="flex items-center p-4 w-fit rounded-xl box-shadow gap-x-[20px] w-full max-w-[610px]"
     >
       <div class="rounded-md p-7 bg-gray-200">
         <UserRound />
@@ -89,7 +90,7 @@
       </div>
     </Card.Root>
     <Card.Root
-      class="flex items-center p-4 w-fit rounded-xl box-shadow gap-x-[20px] w-full max-w-[620px]"
+      class="flex items-center p-4 w-fit rounded-xl box-shadow gap-x-[20px] w-full max-w-[610px]"
     >
       <div class="rounded-md p-7 bg-gray-200">
         <UserRound />
@@ -120,7 +121,7 @@
       </div>
     </Card.Root>
     <Card.Root
-      class="flex items-center p-4 w-fit rounded-xl box-shadow gap-x-[20px] w-full max-w-[620px]"
+      class="flex items-center p-4 w-fit rounded-xl box-shadow gap-x-[20px] w-full max-w-[610px]"
     >
       <div class="rounded-md p-7 bg-gray-200">
         <UserRound />
@@ -151,4 +152,5 @@
       </div>
     </Card.Root>
   </div>
+  <Button variant="outline" class="text-muted-foreground w-fit mx-auto">Load More</Button>
 </div>
