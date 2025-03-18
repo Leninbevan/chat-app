@@ -1,5 +1,5 @@
 import { json } from "@sveltejs/kit";
-import { auth } from "$lib/server/auth";
+import { auth } from "$lib/server/auth.js";
 
 export async function POST({ request }) {
   try {

@@ -49,7 +49,13 @@
           },
         },
       });
-        
+
+      // await authClient.signUp.email({
+      //   email: "john@gmail.com",
+      //   password: "john@gmail.com",
+      //   name: "john",
+      //   image: "https://www.pexels.com/photo/woman-in-white-dress-holding-lupines-in-blooming-field-30346391/",
+      // });
     } catch (error: any) {
       console.log("error", error);
 
