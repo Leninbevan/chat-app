@@ -48,7 +48,7 @@
   import { goto } from "$app/navigation";
   import type { SvelteComponent } from "svelte";
   import Avatar from "$lib/components/ui/avatar/avatar.svelte";
-  import { AvatarFallback, AvatarImage } from "$lib/components/ui/avatar";
+  import { AvatarFallback, AvatarImage } from "$lib/components/ui/avatar/index.js";
   import { Toaster } from "svelte-sonner";
 
   function handleNavigate(endPoint: string): void {
