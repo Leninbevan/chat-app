@@ -12,7 +12,7 @@ export async function POST() {
     return json({ success: "Signed Out Suuccessfully" });
 
   } catch (error:any) {
-    console.error("Sign-out error:", error);
+    console.error("Sign-out error : ", error);
     return json({ error: "Sign-out failed", message: error.message }, { status: 500 });
   }
 }
