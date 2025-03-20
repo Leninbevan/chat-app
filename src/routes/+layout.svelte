@@ -40,6 +40,34 @@
       },
     ],
   };
+
+  const rightData = {
+    navMain: [
+      {
+        title: "Sources",
+        items: [
+          {
+            title: "Youtube",
+            url: "/youtube",
+            icon: Youtube,
+            items: [],
+          },
+          {
+            title: "Website",
+            url: "/website",
+            icon: Globe,
+            items: [],
+          },
+          {
+            title: "Documents",
+            url: "/documents",
+            icon: File,
+            items: [],
+          },
+        ],
+      },
+    ],
+  };
 </script>
 
 <script lang="ts">
@@ -49,6 +77,8 @@
   import * as Sidebar from "$lib/components/ui/sidebar/index.js";
   import UserRound from "lucide-svelte/icons/user-round";
   import Globe from "lucide-svelte/icons/globe";
+  import Youtube from "lucide-svelte/icons/youtube";
+  import File from "lucide-svelte/icons/file";
   import Plus from "lucide-svelte/icons/plus";
   import type { ComponentProps, SvelteComponent } from "svelte";
   import { Toaster } from "svelte-sonner";
@@ -57,9 +87,19 @@
   import Separator from "$lib/components/ui/separator/separator.svelte";
   import { derived } from "svelte/store";
   import { Button } from "$lib/components/ui/button/index.js";
+  import Search from "lucide-svelte/icons/search";
+  import Input from "$lib/components/ui/input/input.svelte";
+  import {
+    Breadcrumb,
+    BreadcrumbItem,
+    BreadcrumbLink,
+    BreadcrumbList,
+    BreadcrumbPage,
+    BreadcrumbSeparator,
+  } from "$lib/components/ui/breadcrumb/index.js";
 
-  
   function handleNavigate(endPoint: string): void {
+    console.log("navigate");
     goto(endPoint).catch((err) => console.error("Navigation error:", err));
   }
 
@@ -70,8 +110,13 @@
         if ($page.url.pathname === item.url) return item.title;
       }
     }
+    for (const group of rightData.navMain) {
+      // if ($page.url.pathname === group?.url) return group?.title;
+      for (const item of group.items) {
+        if ($page.url.pathname === item.url) return item.title;
+      }
+    }
   });
-
 
   let ref: SvelteComponent | null = null;
   let restProps: Partial<ComponentProps<typeof Sidebar.Root>> = {};
@@ -120,8 +165,9 @@
           <div>Recent</div>
           <div
             class="flex items-center p-2 text-lg border rounded-[14px] gap-4"
+            onclick={() => handleNavigate("/space_name")}
           >
-            <div class="p-2 bg-gray-200 rounded-md">
+            <div class="p-2 bg-gray-200 rounded-full">
               <Globe color="rgb(142 145 150)" />
             </div>
             <div class="text-base font-medium">Space name</div>
@@ -129,7 +175,7 @@
           <div
             class="flex items-center p-2 text-lg border rounded-[14px] gap-4"
           >
-            <div class="p-2 bg-gray-200 rounded-md">
+            <div class="p-2 bg-gray-200 rounded-full">
               <UserRound color="rgb(142 145 150)" />
             </div>
             <div class="text-base font-medium">Agent name</div>
@@ -143,17 +189,71 @@
     </Sidebar.Root>
     <Sidebar.Inset>
       {#if !["/discover", "/spaces", "/characters", "/agents"].includes($page.url.pathname)}
-        <header class="flex h-16 shrink-0 items-center gap-2 border-b px-4 sticky top-0 z-10">
+        <header
+          class="flex h-16 shrink-0 items-center gap-2 border-b px-4 sticky top-0 z-10"
+        >
           <Sidebar.Trigger class="-ml-1" />
           <Separator orientation="vertical" class="mr-2 h-4" />
           <div class="flex justify-between w-full items-center">
-            <div class="text-lg font-semibold">{$currentTabTitle}</div>
+            <!-- <div class="text-lg font-semibold">{$currentTabTitle}</div> -->
+            {#if ["/youtube", "/website", "/documents"].includes($page.url.pathname)}
+              <Breadcrumb>
+                <BreadcrumbList>
+                  <BreadcrumbItem>
+                    <BreadcrumbLink
+                      href="/space_name"
+                      class="text-lg font-semibold">Space name</BreadcrumbLink
+                    >
+                  </BreadcrumbItem>
+                  <BreadcrumbSeparator />
+                  <BreadcrumbItem class="decoration-black">
+                    <BreadcrumbPage
+                      class="text-lg font-semibold decoration-black"
+                      >{$currentTabTitle}</BreadcrumbPage
+                    >
+                  </BreadcrumbItem>
+                </BreadcrumbList>
+              </Breadcrumb>
+            {:else if $page.url.pathname === "/space_name"}
+              <div class="text-lg font-semibold">Space name</div>
+            {:else}
+              <div class="text-lg font-semibold">{$currentTabTitle}</div>
+            {/if}
             {#if $page.url.pathname === "/chats"}
               <Button class="bg-black">
                 <Plus />
                 <div>New chat</div>
               </Button>
             {/if}
+            <!-- <Breadcrumb class="text-lg font-semibold">
+              <BreadcrumbList>
+                <BreadcrumbItem>
+                  <BreadcrumbLink href="/space_name">Space name</BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator /> -->
+            <!-- <BreadcrumbItem> -->
+            <!-- <DropdownMenu>
+                    <DropdownMenuTrigger class="flex items-center gap-1">
+                      <Breadcrumb.Ellipsis class="size-4" />
+                      <span class="sr-only">Toggle menu</span>
+                    </DropdownMenuTrigger>
+                    <DropdownMenu.Content align="start">
+                      <DropdownMenu.Item>Documentation</DropdownMenu.Item>
+                      <DropdownMenu.Item>Themes</DropdownMenu.Item>
+                      <DropdownMenu.Item>GitHub</DropdownMenu.Item>
+                    </DropdownMenu.Content>
+                  </DropdownMenu> -->
+            <!-- </BreadcrumbItem> -->
+            <!-- <BreadcrumbSeparator /> -->
+            <!-- <BreadcrumbItem>
+                  <BreadcrumbLink href="/docs/components">Components</BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator /> -->
+            <!-- <BreadcrumbItem>
+                  <BreadcrumbPage></BreadcrumbPage>
+                </BreadcrumbItem>
+              </BreadcrumbList>
+            </Breadcrumb> -->
           </div>
         </header>
       {/if}
@@ -161,6 +261,87 @@
         <slot />
       </div>
     </Sidebar.Inset>
+
+    <!-- Right niside navigation -->
+    {#if ["/youtube", "/website", "/documents","/space_name"].includes($page.url.pathname)}
+    <Sidebar.Content class="gap-0 flex-none border-l w-xl mt-2">
+      <div class="py-[30px]">
+        <div class="relative px-2">
+          <Search
+            class="text-muted-foreground absolute left-4 top-3 h-4 w-4 "
+          />
+          <Input
+            type="search"
+            placeholder="Search in sources"
+            class="pl-8 sm:w-[300px] md:w-[200px] lg:w-[300px] rounded-md box-shadow"
+          />
+        </div>
+        {#each rightData.navMain as group (group.title)}
+          <Sidebar.Group
+            class="pt-2 pr-2 pb-[2px] pl-2 !important cursor-pointer"
+          >
+            <Sidebar.GroupLabel class={`pt-5 pb-5 pl-3  text-black `}>
+              <button class="text-sm">
+                {group.title}
+              </button>
+            </Sidebar.GroupLabel>
+            {#if group.items.length > 0}
+              <Sidebar.GroupContent class="pl-2">
+                <Sidebar.Menu>
+                  {#each group.items as item (item.title)}
+                    <Sidebar.MenuItem class="ml-2">
+                      <div
+                        class="flex border p-2 mr-2 rounded-lg items-center mb-2 hover:bg-[hsl(240 4.8% 95.9%)]"
+                      >
+                        <Sidebar.MenuButton
+                          class={`pt-5 pb-5 pl-3 font-medium ${$page.url.pathname === item.url ? "active" : ""}`}
+                          onclick={() => handleNavigate(item.url)}
+                        >
+                          <div
+                            class={`p-2 ${$page.url.pathname === item.url ? "focus:bg-black" : "bg-gray-200"} rounded-lg flex items-center`}
+                          >
+                            {#if typeof item.icon === "function"}
+                              <svelte:component
+                                this={item.icon}
+                                color="rgb(142 145 150)"
+                              />
+                            {/if}
+
+                            <!-- {item?.icon} -->
+                          </div>
+                          {item.title}
+                        </Sidebar.MenuButton>
+                      </div>
+                    </Sidebar.MenuItem>
+                  {/each}
+                </Sidebar.Menu>
+              </Sidebar.GroupContent>
+            {/if}
+          </Sidebar.Group>
+        {/each}
+        <!-- <div class="flex flex-col gap-2.5 px-4 mt-4">        
+        <div
+          class="flex items-center p-2 text-lg border rounded-[14px] gap-4"
+          onclick={() => handleNavigate("/youtube")}
+        >
+          <div class="p-2 bg-gray-200 rounded-md">
+            <Globe color="rgb(142 145 150)" />
+          </div>
+          <div class="text-base font-medium">Youtube</div>
+        </div>
+        <div
+          class="flex items-center p-2 text-lg border rounded-[14px] gap-4"
+        >
+          <div class="p-2 bg-gray-200 rounded-md">
+            <UserRound color="rgb(142 145 150)" />
+          </div>
+          <div class="text-base font-medium">Agent name</div>
+        </div>
+      </div> -->
+      </div>
+    </Sidebar.Content>
+    {/if}
+    
   </Sidebar.Provider>
 {:else}
   <slot />
