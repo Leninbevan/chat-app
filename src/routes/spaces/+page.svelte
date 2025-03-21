@@ -28,7 +28,7 @@
   </div>
   <div class="flex flex-wrap gap-y-5 gap-x-10 mt-4 mb-6">
     <Card.Root
-      class="flex items-center p-4 w-fit rounded-xl box-shadow gap-x-[20px] w-full max-w-[610px]"
+      class="flex items-center p-4 w-fit rounded-xl box-shadow gap-x-[20px] w-full max-w-[620px]"
     >
       <div class="rounded-md p-7 bg-gray-200">
         <UserRound />
@@ -59,7 +59,7 @@
       </div>
     </Card.Root>
     <Card.Root
-      class="flex items-center p-4 w-fit rounded-xl box-shadow gap-x-[20px] w-full max-w-[610px]"
+      class="flex items-center p-4 w-fit rounded-xl box-shadow gap-x-[20px] w-full max-w-[620px]"
     >
       <div class="rounded-md p-7 bg-gray-200">
         <UserRound />
@@ -90,7 +90,7 @@
       </div>
     </Card.Root>
     <Card.Root
-      class="flex items-center p-4 w-fit rounded-xl box-shadow gap-x-[20px] w-full max-w-[610px]"
+      class="flex items-center p-4 w-fit rounded-xl box-shadow gap-x-[20px] w-full max-w-[620px]"
     >
       <div class="rounded-md p-7 bg-gray-200">
         <UserRound />
@@ -121,7 +121,7 @@
       </div>
     </Card.Root>
     <Card.Root
-      class="flex items-center p-4 w-fit rounded-xl box-shadow gap-x-[20px] w-full max-w-[610px]"
+      class="flex items-center p-4 w-fit rounded-xl box-shadow gap-x-[20px] w-full max-w-[620px]"
     >
       <div class="rounded-md p-7 bg-gray-200">
         <UserRound />

@@ -33,6 +33,11 @@
         url: "/dashboard",
         items: [],
       },
+      {
+        title: "My Library",
+        url: "/my-library",
+        items: [],
+      },
     ],
   };
 </script>
@@ -50,17 +55,23 @@
   import logo from "../assests/logo.jpg";
   import "../styles/app.css";
   import Separator from "$lib/components/ui/separator/separator.svelte";
-  import { writable } from "svelte/store";
+  import { derived } from "svelte/store";
   import { Button } from "$lib/components/ui/button/index.js";
 
-  export let currentTabTitle = writable("");
-
-  function handleNavigate(endPoint: string, title: string = ""): void {
-    if (title) {
-      currentTabTitle.set(title);
-    }
+  
+  function handleNavigate(endPoint: string): void {
     goto(endPoint).catch((err) => console.error("Navigation error:", err));
   }
+
+  const currentTabTitle = derived(page, ($page) => {
+    for (const group of data.navMain) {
+      if ($page.url.pathname === group.url) return group.title;
+      for (const item of group.items) {
+        if ($page.url.pathname === item.url) return item.title;
+      }
+    }
+  });
+
 
   let ref: SvelteComponent | null = null;
   let restProps: Partial<ComponentProps<typeof Sidebar.Root>> = {};
@@ -80,7 +91,7 @@
             class="pt-2 pr-2 pb-[2px] pl-2 !important cursor-pointer"
           >
             <Sidebar.GroupLabel
-              onclick={() => handleNavigate(group.url, group.title)}
+              onclick={() => handleNavigate(group.url)}
               class={`pt-5 pb-5 pl-3  text-black ${$page.url.pathname === group.url ? "active" : ""}`}
             >
               <button class="text-sm">
@@ -132,12 +143,12 @@
     </Sidebar.Root>
     <Sidebar.Inset>
       {#if !["/discover", "/spaces", "/characters", "/agents"].includes($page.url.pathname)}
-        <header class="flex h-16 shrink-0 items-center gap-2 border-b px-4">
+        <header class="flex h-16 shrink-0 items-center gap-2 border-b px-4 sticky top-0 z-50 bg-white">
           <Sidebar.Trigger class="-ml-1" />
           <Separator orientation="vertical" class="mr-2 h-4" />
           <div class="flex justify-between w-full items-center">
-            <div class="text-lg font-semibold">{$currentTabTitle || "My Chats"}</div>
-            {#if $page.url.pathname === "/dashboard"}
+            <div class="text-lg font-semibold">{$currentTabTitle || "Chat"}</div>
+            {#if $page.url.pathname === "/chats"}
               <Button class="bg-black">
                 <Plus />
                 <div>New chat</div>
@@ -146,7 +157,7 @@
           </div>
         </header>
       {/if}
-      <div class="m-8">
+      <div class="m-8 h-full overflow-y-auto">
         <slot />
       </div>
     </Sidebar.Inset>
