@@ -1,10 +1,10 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
-  import { authClient } from "$lib/auth-client";
-  import * as DropdownMenu from "$lib/components/ui/dropdown-menu";
+  import { authClient } from "$lib/auth-client.js";
+  import * as DropdownMenu from "$lib/components/ui/dropdown-menu/index.js";
   import * as Sidebar from "$lib/components/ui/sidebar/index.js";
-  import ChevronsUpDown from "@lucide/svelte/icons/chevrons-up-down";
-  import { UserRound } from "lucide-svelte";
+  import ChevronsUpDown from "lucide-svelte/icons/chevrons-up-down";
+  import  UserRound  from "lucide-svelte/icons/user-round";
   import { toast } from "svelte-sonner";
 
   let { options }: { options: any } = $props();

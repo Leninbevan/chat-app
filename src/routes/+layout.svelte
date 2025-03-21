@@ -68,6 +68,31 @@
       },
     ],
   };
+
+  const dialogData = [
+    { 
+      icon: Globe ,
+      title:"Title of the document etc. with its icon",
+      url:"/title-of-the-document-etc-with-its-icon"
+    },
+    { 
+      icon: Youtube ,
+      title:"Title of the video etc. with its icon",
+      url:"/title-of-the-video-etc-with-its-icon"
+    },
+    { 
+      icon: File ,
+      title:"Title of the file etc. with its icon",
+      url:"/title-of-the-file-etc-with-its-icon"
+    },
+    { 
+      icon: Plus ,
+      title:"Title of the doc/webpage etc. with its icon",
+      url:"/title-of-the-doc&webpage-etc-with-its-icon"
+    }
+    ];
+
+    
 </script>
 
 <script lang="ts">
@@ -97,6 +122,7 @@
     BreadcrumbPage,
     BreadcrumbSeparator,
   } from "$lib/components/ui/breadcrumb/index.js";
+  import * as Dialog from "$lib/components/ui/dialog/index.js";
 
   function handleNavigate(endPoint: string): void {
     console.log("navigate");
@@ -110,16 +136,21 @@
         if ($page.url.pathname === item.url) return item.title;
       }
     }
-    for (const group of rightData.navMain) {
-      // if ($page.url.pathname === group?.url) return group?.title;
-      for (const item of group.items) {
-        if ($page.url.pathname === item.url) return item.title;
-      }
-    }
+    // for (const group of rightData.navMain) {
+    //   for (const item of group.items) {
+    //     if ($page.url.pathname === item.url) return item.title;
+    //   }
+    // }
   });
 
   let ref: SvelteComponent | null = null;
   let restProps: Partial<ComponentProps<typeof Sidebar.Root>> = {};
+  let userInput = "";
+  $: filteredData = dialogData.filter(group => 
+    group.title.toLowerCase().includes(userInput.toLowerCase()) || userInput === ""
+  );
+  $:breadcrumpPage="";
+  $:isDailogopen=false;
 </script>
 
 <Toaster position="top-right" />
@@ -196,7 +227,7 @@
           <Separator orientation="vertical" class="mr-2 h-4" />
           <div class="flex justify-between w-full items-center">
             <!-- <div class="text-lg font-semibold">{$currentTabTitle}</div> -->
-            {#if ["/youtube", "/website", "/documents"].includes($page.url.pathname)}
+            {#if ["Youtube", "Website", "Documents","Title of the document etc. with its icon","Title of the video etc. with its icon","Title of the file etc. with its icon","Title of the doc/webpage etc. with its icon"].includes(breadcrumpPage)}
               <Breadcrumb>
                 <BreadcrumbList>
                   <BreadcrumbItem>
@@ -205,13 +236,15 @@
                       class="text-lg font-semibold">Space name</BreadcrumbLink
                     >
                   </BreadcrumbItem>
+                  {#if breadcrumpPage}
                   <BreadcrumbSeparator />
                   <BreadcrumbItem class="decoration-black">
                     <BreadcrumbPage
                       class="text-lg font-semibold decoration-black"
-                      >{$currentTabTitle}</BreadcrumbPage
+                      >{breadcrumpPage}</BreadcrumbPage
                     >
                   </BreadcrumbItem>
+                  {/if}
                 </BreadcrumbList>
               </Breadcrumb>
             {:else if $page.url.pathname === "/space_name"}
@@ -225,35 +258,6 @@
                 <div>New chat</div>
               </Button>
             {/if}
-            <!-- <Breadcrumb class="text-lg font-semibold">
-              <BreadcrumbList>
-                <BreadcrumbItem>
-                  <BreadcrumbLink href="/space_name">Space name</BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator /> -->
-            <!-- <BreadcrumbItem> -->
-            <!-- <DropdownMenu>
-                    <DropdownMenuTrigger class="flex items-center gap-1">
-                      <Breadcrumb.Ellipsis class="size-4" />
-                      <span class="sr-only">Toggle menu</span>
-                    </DropdownMenuTrigger>
-                    <DropdownMenu.Content align="start">
-                      <DropdownMenu.Item>Documentation</DropdownMenu.Item>
-                      <DropdownMenu.Item>Themes</DropdownMenu.Item>
-                      <DropdownMenu.Item>GitHub</DropdownMenu.Item>
-                    </DropdownMenu.Content>
-                  </DropdownMenu> -->
-            <!-- </BreadcrumbItem> -->
-            <!-- <BreadcrumbSeparator /> -->
-            <!-- <BreadcrumbItem>
-                  <BreadcrumbLink href="/docs/components">Components</BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator /> -->
-            <!-- <BreadcrumbItem>
-                  <BreadcrumbPage></BreadcrumbPage>
-                </BreadcrumbItem>
-              </BreadcrumbList>
-            </Breadcrumb> -->
           </div>
         </header>
       {/if}
@@ -263,85 +267,104 @@
     </Sidebar.Inset>
 
     <!-- Right niside navigation -->
-    {#if ["/youtube", "/website", "/documents","/space_name"].includes($page.url.pathname)}
-    <Sidebar.Content class="gap-0 flex-none border-l w-xl mt-2">
-      <div class="py-[30px]">
-        <div class="relative px-2">
-          <Search
-            class="text-muted-foreground absolute left-4 top-3 h-4 w-4 "
-          />
-          <Input
-            type="search"
-            placeholder="Search in sources"
-            class="pl-8 sm:w-[300px] md:w-[200px] lg:w-[300px] rounded-md box-shadow"
-          />
-        </div>
-        {#each rightData.navMain as group (group.title)}
-          <Sidebar.Group
-            class="pt-2 pr-2 pb-[2px] pl-2 !important cursor-pointer"
-          >
-            <Sidebar.GroupLabel class={`pt-5 pb-5 pl-3  text-black `}>
-              <button class="text-sm">
-                {group.title}
-              </button>
-            </Sidebar.GroupLabel>
-            {#if group.items.length > 0}
-              <Sidebar.GroupContent class="pl-2">
-                <Sidebar.Menu>
-                  {#each group.items as item (item.title)}
-                    <Sidebar.MenuItem class="ml-2">
-                      <div
-                        class="flex border p-2 mr-2 rounded-lg items-center mb-2 hover:bg-[hsl(240 4.8% 95.9%)]"
-                      >
-                        <Sidebar.MenuButton
-                          class={`pt-5 pb-5 pl-3 font-medium ${$page.url.pathname === item.url ? "active" : ""}`}
-                          onclick={() => handleNavigate(item.url)}
+    {#if ["Youtube", "Website", "Documents", "/space_name",""].includes($page.url.pathname)}
+      <Sidebar.Content class="gap-0 flex-none border-l w-xl mt-2">
+        <div class="py-[30px]">
+          <div class="relative px-2">
+            <Dialog.Root bind:open={isDailogopen}>
+              <Dialog.Trigger>
+                <Search
+                  class="text-muted-foreground absolute left-4 top-3 h-4 w-4 "
+                />
+                <Input
+                  type="search"
+                  placeholder="Search in sources"
+                  class="pl-8 sm:w-[300px] md:w-[200px] lg:w-[300px] rounded-md box-shadow"
+                  value={userInput}
+                />
+              </Dialog.Trigger>
+              <Dialog.Content isClose={false} class="p-2">
+                
+                  <Dialog.Header class="">
+                    <Dialog.Title>
+                      <Search
+                        class="text-muted-foreground absolute left-4 top-5 h-4 w-4 "
+                      />
+                      <Input
+                        type="search"
+                        placeholder="Search in sources"
+                        class="pl-8 rounded-md border"
+                        bind:value={userInput}
+                      />
+                    </Dialog.Title>
+                  </Dialog.Header>
+                  <Dialog.Description>
+                    {#each filteredData as group}
+                    {#if group.title.includes(userInput)||userInput===""}
+                    <div
+                      class={`p-2 py-3 hover:bg-gray-200 rounded-lg flex items-center gap-2`}
+                      onclick={()=>{breadcrumpPage=group.title;isDailogopen=false}}
+                    >
+                        <svelte:component
+                          this={group.icon}
+                          color="rgb(142 145 150)"
+                          size={20}
+                        />
+                      {group.title}
+                    </div>
+                    {/if}
+                    {/each}
+                  </Dialog.Description>
+                
+              </Dialog.Content>
+            </Dialog.Root>
+          </div>
+          {#each rightData.navMain as group (group.title)}
+            <Sidebar.Group
+              class="pt-2 pr-2 pb-[2px] pl-2 !important cursor-pointer"
+            >
+              <Sidebar.GroupLabel class={`pt-5 pb-5 pl-3  text-black `}>
+                <div class="text-sm">
+                  {group.title}
+                </div>
+              </Sidebar.GroupLabel>
+              {#if group.items.length > 0}
+                <Sidebar.GroupContent class="pl-2">
+                  <Sidebar.Menu>
+                    {#each group.items as item (item.title)}
+                      <Sidebar.MenuItem class="ml-2">
+                        <div
+                          class="flex border p-2 mr-2 rounded-lg items-center mb-2 hover:bg-[hsl(240 4.8% 95.9%)]"
                         >
-                          <div
-                            class={`p-2 ${$page.url.pathname === item.url ? "focus:bg-black" : "bg-gray-200"} rounded-lg flex items-center`}
+                          <Sidebar.MenuButton
+                            class={`pt-5 pb-5 pl-3 font-medium ${breadcrumpPage === item.url ? "active" : ""}`}
+                            onclick={() => {breadcrumpPage=item.title}}
                           >
-                            {#if typeof item.icon === "function"}
-                              <svelte:component
-                                this={item.icon}
-                                color="rgb(142 145 150)"
-                              />
-                            {/if}
+                            <div
+                              class={`p-2 ${breadcrumpPage=== item.url ? "focus:bg-black" : "bg-gray-200"} rounded-lg flex items-center`}
+                            >
+                              {#if typeof item.icon === "function"}
+                                <svelte:component
+                                  this={item.icon}
+                                  color="rgb(142 145 150)"
+                                />
+                              {/if}
 
-                            <!-- {item?.icon} -->
-                          </div>
-                          {item.title}
-                        </Sidebar.MenuButton>
-                      </div>
-                    </Sidebar.MenuItem>
-                  {/each}
-                </Sidebar.Menu>
-              </Sidebar.GroupContent>
-            {/if}
-          </Sidebar.Group>
-        {/each}
-        <!-- <div class="flex flex-col gap-2.5 px-4 mt-4">        
-        <div
-          class="flex items-center p-2 text-lg border rounded-[14px] gap-4"
-          onclick={() => handleNavigate("/youtube")}
-        >
-          <div class="p-2 bg-gray-200 rounded-md">
-            <Globe color="rgb(142 145 150)" />
-          </div>
-          <div class="text-base font-medium">Youtube</div>
+                              <!-- {item?.icon} -->
+                            </div>
+                            {item.title}
+                          </Sidebar.MenuButton>
+                        </div>
+                      </Sidebar.MenuItem>
+                    {/each}
+                  </Sidebar.Menu>
+                </Sidebar.GroupContent>
+              {/if}
+            </Sidebar.Group>
+          {/each}
         </div>
-        <div
-          class="flex items-center p-2 text-lg border rounded-[14px] gap-4"
-        >
-          <div class="p-2 bg-gray-200 rounded-md">
-            <UserRound color="rgb(142 145 150)" />
-          </div>
-          <div class="text-base font-medium">Agent name</div>
-        </div>
-      </div> -->
-      </div>
-    </Sidebar.Content>
+      </Sidebar.Content>
     {/if}
-    
   </Sidebar.Provider>
 {:else}
   <slot />
