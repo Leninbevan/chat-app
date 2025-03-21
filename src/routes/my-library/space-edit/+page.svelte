@@ -10,6 +10,9 @@
   import { Slider } from "$lib/components/ui/slider/index.js";
   import * as Tabs from "$lib/components/ui/tabs/index.js";
   import { Checkbox } from "$lib/components/ui/checkbox/index.js";
+  import DataTable from "$lib/components/ui/data-table/DataTable.svelte";
+  import { columns } from "./columns.js";
+  import Plus from 'lucide-svelte/icons/plus';
 
   let file;
   let previewUrl = "";
@@ -23,9 +26,40 @@
     }
   }
 
-  let activeTab = "Youtube";
+  let activeTab = "Links";
   const tabs = ["Youtube", "Documents", "Links"];
   let checked = false;
+
+  type Payment = {
+    id: string;
+    status: "Pending" | "Processing" | "Indexed" | "Failed";
+    characters: number;
+    actions: string;
+    source: string;
+    type?: string;
+    date: string;
+  };
+
+  const data: Payment[] = [
+    {
+      id: "m5gr84i9",
+      characters: 316,
+      status: "Pending",
+      actions: "Delete",
+      source: "Video title link",
+      type: "Video",
+      date: "2023-01-01",
+    },
+    {
+      id: "3u1reuv4",
+      characters: 242,
+      status: "Indexed",
+      actions: "Delete",
+      source: "Video title link",
+      type: "Video",
+      date: "2023-01-01",
+    },
+  ];
 </script>
 
 <div class="flex flex-col gap-y-5 w-full">
@@ -133,62 +167,120 @@
         value={tab}
         class="w-full flex flex-col gap-4 relative data-[state=active]:flex data-[state=inactive]:hidden"
       >
-        <div class="flex flex-col gap-y-2 bg-gray-100 rounded-md p-4">
-          <div class="flex flex-col gap-2 items-center">
-            <div
-              class="flex flex-col items-center border-2 border-dashed rounded-md w-[100%] h-[150px] justify-center"
-            >
-              <Label for="image" class="cursor-pointer">
-                {#if previewUrl}
-                  <img
-                    src={previewUrl}
-                    alt="Preview"
-                    class="w-[150px] h-[150px] object-cover p-2"
-                  />
-                {:else}
-                  <div
-                    class="flex flex-col items-center justify-center text-gray-500 w-[100%] h-[100%] gap-y-3"
-                  >
-                    <div>Drag-and-drop or select files</div>
-                    <div class="text-[#8273734f]">
-                      Supported formats: PDF,TXT,DOCS,CSV,XLS
-                    </div>
-                    <Button>Upload Documents</Button>
+      {#if tab === "Documents"}
+      <div class="flex flex-col gap-y-2 bg-gray-50 rounded-md p-4 border-2">
+        <div class="flex flex-col gap-2 items-center">
+          <div
+            class="flex flex-col items-center border-2 border-dashed rounded-md w-[100%] h-[150px] justify-center"
+          >
+            <Label for="image" class="cursor-pointer">
+              {#if previewUrl}
+                <img
+                  src={previewUrl}
+                  alt="Preview"
+                  class="w-[150px] h-[150px] object-cover p-2"
+                />
+              {:else}
+                <div
+                  class="flex flex-col items-center justify-center text-gray-500 w-[100%] h-[100%] gap-y-3"
+                >
+                  <div>Drag-and-drop or select files</div>
+                  <div class="text-[#8273734f]">
+                    Supported formats: PDF,TXT,DOCS,CSV,XLS
                   </div>
-                {/if}
-              </Label>
-              <Input
-                id="image"
-                type="file"
-                class="hidden"
-                onchange={handleFileChange}
-              />
-            </div>
+                  <Button>Upload Documents</Button>
+                </div>
+              {/if}
+            </Label>
+            <Input
+              id="image"
+              type="file"
+              class="hidden"
+              onchange={handleFileChange}
+            />
           </div>
-          <div class="font-medium text-sm">Advanced Options</div>
-          <div class="flex justify-between">
-            <div class="flex items-center space-x-2 w-[50%]">
-              <Checkbox id="terms" bind:checked aria-labelledby="terms-label" />
-              <Label
-                id="terms-label"
-                for="terms"
-                class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-              >
-                Extract text from images
-              </Label>
+        </div>
+        <div class="font-medium text-sm">Advanced Options</div>
+        <div class="flex justify-between">
+          <div class="flex items-center space-x-2 w-[50%]">
+            <Checkbox id="terms" bind:checked aria-labelledby="terms-label" />
+            <Label
+              id="terms-label"
+              for="terms"
+              class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            >
+              Extract text from images
+            </Label>
+          </div>
+          <div class="flex items-center space-x-2 w-[50%]">
+            <Checkbox id="terms" bind:checked aria-labelledby="terms-label" />
+            <Label
+              id="terms-label"
+              for="terms"
+              class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            >
+              Preserve document layout
+            </Label>
+          </div>
+        </div>
+      </div>
+      {:else if tab === "Links"}
+      <div class="flex flex-col gap-y-3 bg-gray-50 rounded-md p-4 border-2">
+        <div class="border-b-2 pb-4">
+          <div class="text-sm">Website URl or Site Map</div>
+          <div class="flex w-full justify-between mt-2">
+            <div class="w-[90%]">
+              <Input type="search" placeholder="Enter website URL or sitemap URL" class="pl-8 bg-gray-50" />
             </div>
-            <div class="flex items-center space-x-2 w-[50%]">
-              <Checkbox id="terms" bind:checked aria-labelledby="terms-label" />
-              <Label
-                id="terms-label"
-                for="terms"
-                class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-              >
-                Preserve document layout
-              </Label>
+            <div>
+              <Button variant="outline" class="w-full">
+                Scrap all
+              </Button>
             </div>
           </div>
         </div>
+        <div>
+          <div class="text-sm">Webpage Links</div>
+          <div class="flex w-full justify-between mt-2 items-center">
+            <div class="w-[96%]">
+              <Input type="search" placeholder="Enter webpage URL" class="pl-8 bg-gray-50" />
+            </div>
+            <Plus size="25"/>
+          </div>
+          <div class="flex items-center justify-end mt-2">
+            <Button class="px-4 py-0 w-fit">Scrape</Button>
+          </div>
+        </div>
+      </div>
+      {:else}
+      <div class="flex flex-col gap-y-3 bg-gray-50 rounded-md p-4 border-2">
+        <div class="border-b-2 pb-4">
+          <div class="text-sm">YouTube Channel Link</div>
+          <div class="flex w-full justify-between mt-2">
+            <div class="w-[90%]">
+              <Input type="search" placeholder="Enter website URL or sitemap URL" class="pl-8 bg-gray-50" />
+            </div>
+            <div>
+              <Button variant="outline" class="w-full">
+                Scrap all
+              </Button>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="text-sm">YouTube Video Links</div>
+          <div class="flex w-full justify-between mt-2 items-center">
+            <div class="w-[96%]">
+              <Input type="search" placeholder="Enter webpage URL" class="pl-8 bg-gray-50" />
+            </div>
+            <Plus size="25"/>
+          </div>
+          <div class="flex items-center justify-end mt-2">
+            <Button class="px-4 py-0 w-fit">Scrape</Button>
+          </div>
+        </div>
+      </div>
+      {/if}
       </Tabs.Content>
     {/each}
   </Tabs.Root>
@@ -212,7 +304,7 @@
       />
     </div>
     <div class="flex flex-col gap-y-1">
-
+      <DataTable {columns} {data} />
     </div>
   </div>
   <div class="flex flex-col gap-y-3">
