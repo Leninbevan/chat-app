@@ -220,9 +220,7 @@
     </Sidebar.Root>
     <Sidebar.Inset>
       {#if !["/discover", "/spaces", "/characters", "/agents"].includes($page.url.pathname)}
-        <header
-          class="flex h-16 shrink-0 items-center gap-2 border-b px-4 sticky top-0 z-10"
-        >
+        <header class="flex h-16 shrink-0 items-center gap-2 border-b px-4 sticky top-0 z-50 bg-white">
           <Sidebar.Trigger class="-ml-1" />
           <Separator orientation="vertical" class="mr-2 h-4" />
           <div class="flex justify-between w-full items-center">

@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { Button } from "$lib/components/ui/button/index.js";
   import * as Card from "$lib/components/ui/card/index.js";
   import * as Popover from "$lib/components/ui/popover/index.js";
@@ -10,9 +10,35 @@
   import { Input } from "$lib/components/ui/input/index.js";
   import Label from "$lib/components/ui/label/label.svelte";
   import * as Select from "$lib/components/ui/select/index.js";
+  import { Textarea } from "$lib/components/ui/textarea/index.js";
+  import { Switch } from "$lib/components/ui/switch/index.js";
+  import Info from "lucide-svelte/icons/info";
+  import Image from "lucide-svelte/icons/image";
+  import { goto } from "$app/navigation";
 
   let activeTab = "All Items";
   const tabs = ["All Items", "Spaces", "Agents", "Characters"];
+
+  let file;
+  let previewUrl = "";
+
+  function handleFileChange(event: Event) {
+    const target = event.target as HTMLInputElement | null;
+    if (target && target.files && target.files[0]) {
+      file = target.files[0];
+      previewUrl = URL.createObjectURL(file);
+    }
+  }
+
+  function handleNavigateToSpace(endPoint:String) {
+    if(endPoint === "characters" || endPoint === "agents"){
+      goto("/my-library/character-agent-edit").catch((err) => console.error("Navigation error:", err));
+    }
+    else{
+      goto("/my-library/space-edit").catch((err) => console.error("Navigation error:", err));
+    }
+  }
+
 </script>
 
 <div class="mt-4">
@@ -39,17 +65,66 @@
           </Button>
         </Dialog.Trigger>
         <Dialog.Content
-          class="sm:max-w-[425px]"
+          class="w-full max-w-[530px] max-h-[730px] h-full overflow-y-scroll"
           onInteractOutside={(event) => event.preventDefault()}
         >
           <Dialog.Header>
-            <Dialog.Title>Create New Space</Dialog.Title>
+            <Dialog.Title class="font-bold">Create New Space</Dialog.Title>
           </Dialog.Header>
-          <div>
+          <div class="flex flex-col gap-y-3">
+            <div>
               <Label>Type</Label>
               <Select.Root type="single">
-                <Select.Trigger class="rounded-md"
-                  >Spaces</Select.Trigger
+                <Select.Trigger class="rounded-md mt-2">Spaces</Select.Trigger>
+                <Select.Content>
+                  <Select.Item value="light">Agents</Select.Item>
+                  <Select.Item value="dark">Characters</Select.Item>
+                  <Select.Item value="system">Spaces</Select.Item>
+                </Select.Content>
+              </Select.Root>
+            </div>
+            <div class="text-muted-foreground text-sm">
+              A container for structured data from multiple sources that users can query.
+            </div>
+            <Label for="image">Image</Label>
+            <div class="flex flex-col items-center">
+              <Label for="image" class="cursor-pointer">
+                {#if previewUrl}
+                  <img
+                    src={previewUrl}
+                    alt="Preview"
+                    class="w-[100px] h-[100px] object-cover rounded-lg border"
+                  />
+                {:else}
+                  <div
+                    class="w-[100px] h-[100px] flex flex-col items-center justify-center border-2 border-dashed rounded-lg text-gray-500"
+                  >
+                    <Image size={40} />
+                    <span class="text-sm">Upload</span>
+                  </div>
+                {/if}
+              </Label>
+              <Input
+                id="image"
+                type="file"
+                class="hidden"
+                onchange={handleFileChange}
+              />
+            </div>
+
+            <div>
+              <Label for="title">Title</Label>
+              <Input id="title" type="text" class="mt-2" />
+            </div>
+            <div>
+              <Label for="title">Description</Label>
+              <Textarea placeholder="Descripe your space" class="mt-2" />
+            </div>
+            <div>
+              <Label>Category</Label>
+              <Select.Root type="single">
+                <Select.Trigger class="rounded-md mt-2"
+                  >Select Category</Select.Trigger
                 >
                 <Select.Content>
                   <Select.Item value="light">Agents</Select.Item>
@@ -57,13 +132,19 @@
                   <Select.Item value="system">Spaces</Select.Item>
                 </Select.Content>
               </Select.Root>
-              <div class="text-muted-foreground">Implementation of the lucide icon library for svelte applications.</div>
-              <Label for="picture">Picture</Label>
-              <Input id="picture" type="file" />
+            </div>
+            <div class="flex items-center justify-between">
+              <Label for="private" class="flex items-center gap-x-2">
+                <div>Private</div>
+                <Info size="16" class="text-muted-foreground" />
+              </Label>
+              <Switch id="private" />
+            </div>
           </div>
-          <Dialog.Footer>
-            <Button type="submit">Save changes</Button>
-          </Dialog.Footer>
+          <div class="flex justify-between">
+            <Button variant="outline">Cancel</Button>
+            <Button class="bg-gray-400">Create</Button>
+          </div>
         </Dialog.Content>
       </Dialog.Root>
     </div>
@@ -91,7 +172,7 @@
                         ><EllipsisVertical size="16" /></Popover.Trigger
                       >
                       <Popover.Content class="max-w-[130px] p-0">
-                        <div class="p-2 cursor-pointer">Edit</div>
+                        <div class="p-2 cursor-pointer" onclick={() => handleNavigateToSpace("agents")}>Edit</div>
                         <div class="p-2 text-red-500 cursor-pointer">
                           Delete
                         </div>

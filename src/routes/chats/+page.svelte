@@ -180,7 +180,7 @@
 </div>
 <div class="mt-4">
   <Tabs.Root bind:value={activeTab} class="w-full h-[40px]">
-    <Tabs.List class="flex gap-2 bg-gray-200 p-[10px] rounded-md">
+    <Tabs.List class="flex gap-2 bg-gray-200 p-[5px] rounded-md">
       {#each tabs as tab}
         <Tabs.Trigger
           value={tab}
