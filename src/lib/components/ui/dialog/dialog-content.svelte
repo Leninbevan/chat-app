@@ -15,7 +15,7 @@
 	}: WithoutChildrenOrChild<DialogPrimitive.ContentProps> & {
 		portalProps?: DialogPrimitive.PortalProps;
 		children: Snippet;
-		isClose:boolean;
+		isClose?:boolean;
 	} = $props();
 
 </script>
