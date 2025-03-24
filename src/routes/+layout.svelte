@@ -172,7 +172,7 @@
     },
   ];
 
-  const headerImage = [{ "space-name": Globe, "agent-name": UserRound }];
+  const headerImage = { "space-name": Globe, "agent-name": UserRound };
 </script>
 
 <script lang="ts">
@@ -329,9 +329,6 @@
         <header
           class="flex h-16 shrink-0 items-center gap-2 border-b px-4 sticky top-0 z-50 bg-white"
         >
-        <header
-          class="flex h-16 shrink-0 items-center gap-2 border-b px-4 sticky top-0 z-50 bg-white"
-        >
           <Sidebar.Trigger class="-ml-1" />
           <Separator orientation="vertical" class="mr-2 h-4" />
           <div class="flex justify-between w-full items-center">
@@ -341,16 +338,14 @@
                 <BreadcrumbList>
                   {#if breadcrumb}
                     <BreadcrumbItem>
+                      {#if Object.keys(headerImage).includes($page.url.pathname.split("/")[1])}
                       <div class="p-2 bg-gray-200 rounded-md">
                         <svelte:component
-                          this={headerImage[0][
-                            $page.url.pathname.split(
-                              "/",
-                            )[1] as keyof (typeof headerImage)[0]
-                          ]}
+                          this={headerImage[$page.url.pathname.split("/")[1] as keyof typeof headerImage]}
                           color="rgb(142 145 150)"
                         />
                       </div>
+                        {/if}
                       <BreadcrumbLink
                         onclick={() => {
                           handleNavigate(
@@ -383,11 +378,7 @@
                     {#if !breadcrumb && $page.url.pathname === "/space-name"}
                       <div class="p-2 bg-gray-200 rounded-md">
                         <svelte:component
-                          this={headerImage[0][
-                            $page.url.pathname.split(
-                              "/",
-                            )[1] as keyof (typeof headerImage)[0]
-                          ]}
+                          this={headerImage[$page.url.pathname.split("/")[1] as keyof typeof headerImage]}
                           color="rgb(142 145 150)"
                         />
                       </div>
@@ -439,10 +430,6 @@
 
     <!-- Right niside navigation -->
     {#if ["space-name"].includes($page.url.pathname.split("/")[1])}
-      <Sidebar.Content class="gap-0 flex-none border-l w-xl mt-2">
-        <div class="py-[30px]">
-          <div class="relative px-2">
-    {#if ["Youtube", "Website", "Documents", "/space_name", "/chats-page"].includes($page.url.pathname)}
       <Sidebar.Content class="border-l max-w-[350px]">
         <div class="flex flex-col gap-y-[20px] p-[20px]">
           <div class="relative">
@@ -531,9 +518,9 @@
                           class="flex border rounded-lg items-center right-side-parent"
                         >
                           <Sidebar.MenuButton
-                            class={`py-[37px] px-[14px] font-medium ${breadcrumpPage === item.title ? "active-blue" : ""}`}
+                            class={`py-[37px] px-[14px] font-medium ${breadcrumbPage === item.title ? "active-blue" : ""}`}
                             onclick={() => {
-                              breadcrumpPage = item.title;
+                              breadcrumbPage = item.title;
                             }}
                           >
                             <div
