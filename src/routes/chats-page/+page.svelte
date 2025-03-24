@@ -53,8 +53,7 @@
           class="rounded-md p-4 relative
                  max-w-[90%] w-fit overflow-hidden break-all text-black bg-[#0079ff14] ml-[45px]"
         >
-          <!-- {msg} -->
-          An unofficial, community-led Svelte port of shadcn/ui. We are not affiliated An unofficial, community-led Svelte port of shadcn/ui. We are not affiliatedAn unofficial, community-led Svelte port of shadcn/ui. We are not affiliatedAn unofficial, community-led Svelte port of shadcn/ui. We are not affiliatedAn unofficial, community-led Svelte port of shadcn/ui. We are not affiliatedAn unofficial, community-led Svelte port of shadcn/ui.
+          {msg}
         </div>
         <div class="flex gap-x-2 items-center">
           <Avatar.Root>

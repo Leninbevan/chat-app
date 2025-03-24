@@ -298,8 +298,6 @@
           <div>Recent</div>
           <!-- svelte-ignore a11y_click_events_have_key_events -->
           <!-- svelte-ignore a11y_no_static_element_interactions -->
-          <!-- svelte-ignore a11y_click_events_have_key_events -->
-          <!-- svelte-ignore a11y_no_static_element_interactions -->
           <div
             class="flex items-center p-2 text-lg border rounded-[14px] gap-4 cursor-pointer"
             onclick={() => handleNavigate("/space-name")}
@@ -429,7 +427,7 @@
     </Sidebar.Inset>
 
     <!-- Right niside navigation -->
-    {#if ["space-name"].includes($page.url.pathname.split("/")[1])}
+    {#if ["space-name","chats-page"].includes($page.url.pathname.split("/")[1])}
       <Sidebar.Content class="border-l max-w-[350px]">
         <div class="flex flex-col gap-y-[20px] p-[20px]">
           <div class="relative">
