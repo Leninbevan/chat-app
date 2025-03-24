@@ -90,7 +90,66 @@
       title: "Title of the doc/webpage etc. with its icon",
       url: "/space-name/title-of-the-doc&webpage-etc-with-its-icon",
     },
+    {
+      icon: Youtube,
+      title: "Title of the video etc. with its icon",
+      url: "/space-name/title-of-the-video-etc-with-its-icon",
+    },
+    {
+      icon: File,
+      title: "Title of the file etc. with its icon",
+      url: "/space-name/title-of-the-file-etc-with-its-icon",
+    },
+    {
+      icon: Plus,
+      title: "Title of the doc/webpage etc. with its icon",
+      url: "/space-name/title-of-the-doc&webpage-etc-with-its-icon",
+    },
+    
+    {
+      icon: Plus,
+      title: "Title of the doc/webpage etc. with its icon",
+      url: "/space-name/title-of-the-doc&webpage-etc-with-its-icon",
+    },
+    {
+      icon: Youtube,
+      title: "Title of the video etc. with its icon",
+      url: "/space-name/title-of-the-video-etc-with-its-icon",
+    },
+    {
+      icon: File,
+      title: "Title of the file etc. with its icon",
+      url: "/space-name/title-of-the-file-etc-with-its-icon",
+    },
+    {
+      icon: Plus,
+      title: "Title of the doc/webpage etc. with its icon",
+      url: "/space-name/title-of-the-doc&webpage-etc-with-its-icon",
+    },
+    
+    {
+      icon: Plus,
+      title: "Title of the doc/webpage etc. with its icon",
+      url: "/space-name/title-of-the-doc&webpage-etc-with-its-icon",
+    },
+    {
+      icon: Youtube,
+      title: "Title of the video etc. with its icon",
+      url: "/space-name/title-of-the-video-etc-with-its-icon",
+    },
+    {
+      icon: File,
+      title: "Title of the file etc. with its icon",
+      url: "/space-name/title-of-the-file-etc-with-its-icon",
+    },
+    {
+      icon: Plus,
+      title: "Title of the doc/webpage etc. with its icon",
+      url: "/space-name/title-of-the-doc&webpage-etc-with-its-icon",
+    },
   ];
+
+  const headerImage = [{ "space-name": Globe, "agent-name": UserRound }];
 </script>
 
 <script lang="ts">
@@ -121,7 +180,7 @@
     BreadcrumbSeparator,
   } from "$lib/components/ui/breadcrumb/index.js";
   import * as Dialog from "$lib/components/ui/dialog/index.js";
-    import { Provider } from "$lib/components/ui/tooltip/index.js";
+  import { Provider } from "$lib/components/ui/tooltip/index.js";
 
   function handleNavigate(endPoint: string): void {
     const paths = endPoint.split("/");
@@ -142,8 +201,10 @@
   let ref: SvelteComponent | null = null;
   let restProps: Partial<ComponentProps<typeof Sidebar.Root>> = {};
   let userInput = "";
-  $: filteredData = dialogData.filter(group => 
-    group.title.toLowerCase().includes(userInput.toLowerCase()) || userInput === ""
+  $: filteredData = dialogData.filter(
+    (group) =>
+      group.title.toLowerCase().includes(userInput.toLowerCase()) ||
+      userInput === "",
   );
   let breadcrumbPage = "";
   $: breadcrumb = ["space-name", "my-library"].includes(
@@ -208,6 +269,8 @@
         {/each}
         <div class="flex flex-col gap-2.5 px-4 mt-4">
           <div>Recent</div>
+          <!-- svelte-ignore a11y_click_events_have_key_events -->
+          <!-- svelte-ignore a11y_no_static_element_interactions -->
           <div
             class="flex items-center p-2 text-lg border rounded-[14px] gap-4 cursor-pointer"
             onclick={() => handleNavigate("/space-name")}
@@ -234,7 +297,9 @@
     </Sidebar.Root>
     <Sidebar.Inset>
       {#if !["/discover", "/spaces", "/characters", "/agents"].includes($page.url.pathname)}
-        <header class="flex h-16 shrink-0 items-center gap-2 border-b px-4 sticky top-0 z-50 bg-white">
+        <header
+          class="flex h-16 shrink-0 items-center gap-2 border-b px-4 sticky top-0 z-50 bg-white"
+        >
           <Sidebar.Trigger class="-ml-1" />
           <Separator orientation="vertical" class="mr-2 h-4" />
           <div class="flex justify-between w-full items-center">
@@ -243,61 +308,85 @@
               <Breadcrumb>
                 <BreadcrumbList>
                   {#if breadcrumb}
-                  <BreadcrumbItem>
-                    <BreadcrumbLink
-                      onclick={() =>{
-                        
-                        handleNavigate(`/${$page.url.pathname.split("/")[1]}`)}}
-                      class="text-lg font-semibold"
+                    <BreadcrumbItem>
+                      <div class="p-2 bg-gray-200 rounded-md">
+                        <svelte:component
+                          this={headerImage[0][
+                            $page.url.pathname.split(
+                              "/",
+                            )[1] as keyof (typeof headerImage)[0]
+                          ]}
+                          color="rgb(142 145 150)"
+                        />
+                      </div>
+                      <BreadcrumbLink
+                        onclick={() => {
+                          handleNavigate(
+                            `/${$page.url.pathname.split("/")[1]}`,
+                          );
+                        }}
+                        class="text-lg font-semibold"
                       >
-                      {$page.url.pathname
-                        .split("/")[1]
-                        .replaceAll("-", " ")
-                        .charAt(0)
-                        .toUpperCase() +
-                        $page.url.pathname
+                        {$page.url.pathname
                           .split("/")[1]
-                          .replaceAll("-", " ")
-                          .slice(
-                            1,
-                            $page.url.pathname
-                              .split("/")[1]
-                              .replaceAll("-", " ").length,
-                          )}
-                    </BreadcrumbLink>
-                  </BreadcrumbItem>
-
-                    <BreadcrumbSeparator />
-                    {/if}
-        
-
-                    <BreadcrumbItem class="decoration-black">
-                      <BreadcrumbPage
-                        class="text-lg font-semibold decoration-black"
-                        >{breadcrumb||
-                        $page.url.pathname
-                          .split("/")[$page.url.pathname
-                          .split("/").length-1]
                           .replaceAll("-", " ")
                           .charAt(0)
                           .toUpperCase() +
                           $page.url.pathname
-                            .split("/")[$page.url.pathname
-                            .split("/").length-1]
+                            .split("/")[1]
                             .replaceAll("-", " ")
                             .slice(
                               1,
                               $page.url.pathname
-                                .split("/")[$page.url.pathname
-                                .split("/").length-1]
+                                .split("/")[1]
                                 .replaceAll("-", " ").length,
                             )}
-
-                      </BreadcrumbPage>
+                      </BreadcrumbLink>
                     </BreadcrumbItem>
-                  
+
+                    <BreadcrumbSeparator />
+                  {/if}
+
+                  <BreadcrumbItem class="decoration-black">
+                    {#if !breadcrumb && $page.url.pathname === "/space-name"}
+                      <div class="p-2 bg-gray-200 rounded-md">
+                        <svelte:component
+                          this={headerImage[0][
+                            $page.url.pathname.split(
+                              "/",
+                            )[1] as keyof (typeof headerImage)[0]
+                          ]}
+                          color="rgb(142 145 150)"
+                        />
+                      </div>
+                    {/if}
+
+                    <BreadcrumbPage
+                      class="text-lg font-semibold decoration-black"
+                      >{breadcrumb ||
+                        $page.url.pathname
+                          .split("/")
+                          [
+                            $page.url.pathname.split("/").length - 1
+                          ].replaceAll("-", " ")
+                          .charAt(0)
+                          .toUpperCase() +
+                          $page.url.pathname
+                            .split("/")
+                            [
+                              $page.url.pathname.split("/").length - 1
+                            ].replaceAll("-", " ")
+                            .slice(
+                              1,
+                              $page.url.pathname
+                                .split("/")
+                                [
+                                  $page.url.pathname.split("/").length - 1
+                                ].replaceAll("-", " ").length,
+                            )}
+                    </BreadcrumbPage>
+                  </BreadcrumbItem>
                 </BreadcrumbList>
-                
               </Breadcrumb>
             {:else}
               <div class="text-lg font-semibold">{$currentTabTitle}</div>
@@ -316,65 +405,79 @@
       </div>
     </Sidebar.Inset>
 
-   
     <!-- Right niside navigation -->
     {#if ["space-name"].includes($page.url.pathname.split("/")[1])}
-    <!-- <Sidebar.Provider {...restRightProps} bind:this={rightRef} class="bg-red"> -->
-      <!-- <Sidebar.Root >
-        <Sidebar.Rail /> -->
-        <Sidebar.Content class="gap-0 flex-none border-l w-xl mt-2">
-          <div class="py-[30px]">
-            <div class="relative px-2">
-              <Dialog.Root bind:open={isDailogopen}>
-                <Dialog.Trigger>
-                  <Search
-                    class="text-muted-foreground absolute left-4 top-3 h-4 w-4 "
-                  />
-                  <Input
-                    type="search"
-                    placeholder="Search in sources"
-                    class="pl-8 sm:w-[300px] md:w-[200px] lg:w-[300px] rounded-md box-shadow cursor-pointer"
-                    value={userInput}
-                  />
-                </Dialog.Trigger>
-                <Dialog.Content isClose={false} class="p-2">
-                  <Dialog.Header class="">
-                    <Dialog.Title>
-                      <Search
-                        class="text-muted-foreground absolute left-4 top-5 h-4 w-4 "
-                      />
-                      <Input
-                        type="search"
-                        placeholder="Search in sources"
-                        class="pl-8 rounded-md border"
-                        bind:value={userInput}
-                      />
-                    </Dialog.Title>
-                  </Dialog.Header>
-                  <Dialog.Description>
-                    {#each filteredData as group}
-                      {#if group.title.includes(userInput) || userInput === ""}
-                        <div
-                          class={`p-2 py-3 hover:bg-gray-200 rounded-lg flex items-center gap-2 cursor-pointer`}
-                          onclick={() => {
-                            breadcrumbPage = group.title;
-                            isDailogopen = false;
-                          }}
-                        >
-                          <svelte:component
-                            this={group.icon}
-                            color="rgb(142 145 150)"
-                            size={20}
-                          />
-                          {group.title}
+      <Sidebar.Content class="gap-0 flex-none border-l w-xl mt-2">
+        <div class="py-[30px]">
+          <div class="relative px-2">
+            <Dialog.Root bind:open={isDailogopen}>
+              <Dialog.Trigger>
+                <Search
+                  class="text-muted-foreground absolute left-4 top-3 h-4 w-4 "
+                />
+                <Input
+                  type="search"
+                  placeholder="Search in sources"
+                  class="pl-8 sm:w-[300px] md:w-[200px] lg:w-[300px] rounded-md box-shadow cursor-pointer"
+                  value={userInput}
+                />
+              </Dialog.Trigger>
+              <Dialog.Content isClose={true} class="p-5 max-w-[450px]">
+                <Dialog.Header >
+                  <Dialog.Title >
+                    Search Source items
+                  </Dialog.Title>
+                </Dialog.Header>
+                <Dialog.Description class="w-full">
+                  <div class="flex items-baseline">
+                  
+                    <Input
+                      type="search"
+                      placeholder="Search Source items..."
+                      class="pl-2 rounded-md border-black mb-5"
+                      bind:value={userInput}
+                    />
+                    <!-- <Search
+                      class="text-muted-foreground absolute h-4 max-w-4 right-1"
+                    /> -->
+                  </div>
+                    <div class="flex flex-col gap-5 pt-2 h-[25em] overflow-auto">
+
+                      {#each filteredData as group}
+                        {#if group.title.includes(userInput) || userInput === ""}
+                          <!-- svelte-ignore a11y_click_events_have_key_events -->
+                          <!-- svelte-ignore a11y_no_static_element_interactions -->
+                           <div class="flex flex-col gap-4">
+
+                           
+                          <div
+                            class={`hover:bg-gray-200 rounded-lg flex items-center gap-2 cursor-pointer text-base text-black`}
+                            onclick={() => {
+                              breadcrumbPage = group.title;
+                              isDailogopen = false;
+                            }}
+                          >
+                          <div class="bg-gray-50 p-2 border rounded-md">
+                            
+                            <svelte:component
+                              this={group.icon}
+                              color="rgb(142 145 150)"
+                              size={20}
+                            />
+                          </div>
+                          
+ {group.title}
+                          </div>
+                          <Separator/>
                         </div>
-                      {/if}
-                    {/each}
-                  </Dialog.Description>
-                </Dialog.Content>
-              </Dialog.Root>
-            </div>
-            {#each rightData.navMain as group (group.title)}
+                        {/if}
+                      {/each}
+                    </div>
+                </Dialog.Description>
+              </Dialog.Content>
+            </Dialog.Root>
+          </div>
+          {#each rightData.navMain as group (group.title)}
               <Sidebar.Group
                 class="pt-2 pr-2 pb-[2px] pl-2 !important cursor-pointer"
               >
@@ -422,10 +525,7 @@
             {/each}
           </div>
         </Sidebar.Content>
-      <!-- </Sidebar.Root> -->
-    <!-- </Sidebar.Provider> -->
-      {/if}
-    
+    {/if}
   </Sidebar.Provider>
 {:else}
   <slot />
