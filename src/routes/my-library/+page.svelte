@@ -117,8 +117,8 @@
               <Input id="title" type="text" class="mt-2" />
             </div>
             <div>
-              <Label for="title">Description</Label>
-              <Textarea placeholder="Descripe your space" class="mt-2" />
+              <Label for="description">Description</Label>
+              <Textarea id="description" placeholder="Descripe your space" class="mt-2" />
             </div>
             <div>
               <Label>Category</Label>
@@ -134,7 +134,7 @@
               </Select.Root>
             </div>
             <div class="flex items-center justify-between">
-              <Label for="private" class="flex items-center gap-x-2">
+              <Label  class="flex items-center gap-x-2">
                 <div>Private</div>
                 <Info size="16" class="text-muted-foreground" />
               </Label>
