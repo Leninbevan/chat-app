@@ -22,7 +22,7 @@
   }
 </script>
 
-<div class="flex flex-col gap-y-5 w-full">
+<div class="flex flex-col gap-y-5 w-full pr-1.5">
   <div class="flex justify-between items-center">
     <div class="font-bold text-2xl">Edit Agent</div>
     <div>
@@ -156,7 +156,7 @@
             </div>
           </div>
           <div>
-            <Slider type="single" bind:value={value} max={10} step={1} class="mt-2 [&>span]:w-3 [&>span]:h-3"/>
+            <Slider type="single" bind:value={value} max={10} step={1} class="mt-2 [&>span]:w-3 [&>span]:h-3 cursor-pointer"/>
           </div>
           <div class="flex justify-between text-muted-foreground">
             <div>Precise</div>
