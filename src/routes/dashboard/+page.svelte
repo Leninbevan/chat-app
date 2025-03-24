@@ -16,7 +16,7 @@
   const tabs = ["All", "Spaces", "Agents", "Characters"];
 </script>
 
-<div class="flex w-full justify-between">
+<!-- <div class="flex w-full justify-between">
   <div class="relative w-[90%]">
     <Search class="text-muted-foreground absolute left-2.5 top-2.5 h-4 w-4" />
     <Input type="search" placeholder="Search for items here..." class="pl-8" />
@@ -50,7 +50,7 @@
           </div>
           <div class="flex flex-wrap gap-y-5 gap-x-10">
             <Card.Root
-              class="flex flex-col p-4 w-fit rounded-xl box-shadow gap-y-[20px] w-full max-w-[610px]"
+              class="flex flex-col p-4 w-fit rounded-xl box-shadow gap-y-[20px] w-full max-w-[620px]"
             >
               <div class="flex gap-x-[10px]">
                 <div class="rounded-xl p-4 bg-gray-200">
@@ -98,7 +98,7 @@
               </div>
             </Card.Root>
             <Card.Root
-              class="flex flex-col p-4 w-fit rounded-xl box-shadow gap-y-[20px] w-full max-w-[610px]"
+              class="flex flex-col p-4 w-fit rounded-xl box-shadow gap-y-[20px] w-full max-w-[620px]"
             >
               <div class="flex gap-x-[10px]">
                 <div class="rounded-xl p-4 bg-gray-200">
@@ -151,7 +151,6 @@
           >
         </div>
 
-        <!-- recent -->
 
         <div class="flex flex-col gap-y-4 mt-4 mb-6">
           <div class="flex gap-x-2 items-center">
@@ -160,7 +159,7 @@
           </div>
           <div class="flex flex-wrap gap-y-5 gap-x-10">
             <Card.Root
-              class="flex flex-col p-4 w-fit rounded-xl box-shadow gap-y-[20px] w-full max-w-[610px]"
+              class="flex flex-col p-4 w-fit rounded-xl box-shadow gap-y-[20px] w-full max-w-[620px]"
             >
               <div class="flex gap-x-[10px]">
                 <div class="rounded-xl p-4 bg-gray-200">
@@ -208,7 +207,7 @@
               </div>
             </Card.Root>
             <Card.Root
-              class="flex flex-col p-4 w-fit rounded-xl box-shadow gap-y-[20px] w-full max-w-[610px]"
+              class="flex flex-col p-4 w-fit rounded-xl box-shadow gap-y-[20px] w-full max-w-[620px]"
             >
               <div class="flex gap-x-[10px]">
                 <div class="rounded-xl p-4 bg-gray-200">
@@ -256,7 +255,7 @@
               </div>
             </Card.Root>
             <Card.Root
-              class="flex flex-col p-4 w-fit rounded-xl box-shadow gap-y-[20px] w-full max-w-[610px]"
+              class="flex flex-col p-4 w-fit rounded-xl box-shadow gap-y-[20px] w-full max-w-[620px]"
             >
               <div class="flex gap-x-[10px]">
                 <div class="rounded-xl p-4 bg-gray-200">
@@ -304,7 +303,7 @@
               </div>
             </Card.Root>
             <Card.Root
-              class="flex flex-col p-4 w-fit rounded-xl box-shadow gap-y-[20px] w-full max-w-[610px]"
+              class="flex flex-col p-4 w-fit rounded-xl box-shadow gap-y-[20px] w-full max-w-[620px]"
             >
               <div class="flex gap-x-[10px]">
                 <div class="rounded-xl p-4 bg-gray-200">
@@ -359,4 +358,6 @@
       </Tabs.Content>
     {/each}
   </Tabs.Root>
-</div>
+</div> -->
+
+ <div>Dashboard</div>
