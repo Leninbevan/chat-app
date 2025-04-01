@@ -17,6 +17,9 @@
     getPaginationRowModel,
     getSortedRowModel,
   } from "@tanstack/table-core";
+  import { Checkbox } from "../checkbox/index.js";
+  import { Label } from "../label/index.js";
+  import { Input } from "../input/index.js";
 
   type DataTableProps<TData, TValue> = {
     columns: ColumnDef<TData, TValue>[];
@@ -94,9 +97,27 @@
       }
     },
   });
+  let checked = $state(false);
 </script>
 
 <div class="w-full">
+  <div class="flex items-center gap-x-4 mb-4">
+    <div class="flex items-center space-x-2">
+      <Checkbox id="terms" bind:checked aria-labelledby="terms-label" />
+      <Label
+        id="terms-label"
+        for="terms"
+        class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+      >
+        Select All
+      </Label>
+    </div>
+    <Input
+      type="search"
+      placeholder="Search for items here..."
+      class="pl-8 sm:w-[300px] md:w-[200px] lg:w-[300px] rounded-md"
+    />
+  </div>
   <div class="rounded-md border">
     <Table.Root>
       <Table.Header>

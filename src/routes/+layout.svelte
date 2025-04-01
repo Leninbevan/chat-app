@@ -1,6 +1,17 @@
 <script lang="ts" module>
   const data = {
-    options: "Signout",
+    options: {
+      items: [
+        {
+          title: "Settings",
+          icon: Settings,
+        },
+        {
+          title: "Sign out",
+          icon: LogOut,
+        },
+      ],
+    },
     navMain: [
       {
         title: "Discover",
@@ -194,6 +205,8 @@
   import { Button } from "$lib/components/ui/button/index.js";
   import Search from "lucide-svelte/icons/search";
   import Input from "$lib/components/ui/input/input.svelte";
+  import Settings from 'lucide-svelte/icons/settings';
+  import LogOut  from 'lucide-svelte/icons/log-out';
   import {
     Breadcrumb,
     BreadcrumbItem,
@@ -331,7 +344,7 @@
           <Separator orientation="vertical" class="mr-2 h-4" />
           <div class="flex justify-between w-full items-center">
             <!-- <div class="text-lg font-semibold">{$currentTabTitle}</div> -->
-            {#if ["my-library", "space-name"].includes($page.url.pathname.split("/")[1])}
+            {#if ["my-library", "space-name","settings"].includes($page.url.pathname.split("/")[1])}
               <Breadcrumb>
                 <BreadcrumbList>
                   {#if breadcrumb}
