@@ -6,7 +6,7 @@ import {
 import type { ColumnDef } from "@tanstack/table-core";
 import { createRawSnippet } from "svelte";
 
-type Payment = {
+type ActivityLog  = {
   id: string;
   status: "Pending" | "Processing" | "Indexed" | "Failed";
   characters: number;
@@ -16,7 +16,7 @@ type Payment = {
   date: string;
 };
 
-export const columns: ColumnDef<Payment>[] = [
+export const columns: ColumnDef<ActivityLog >[] = [
   {
     id: "select",
     cell: ({ row }: { row: any }) =>

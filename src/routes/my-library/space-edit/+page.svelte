@@ -13,10 +13,11 @@
   import DataTable from "$lib/components/ui/data-table/DataTable.svelte";
   import { columns } from "./columns.js";
   import Plus from 'lucide-svelte/icons/plus';
+  import { writable } from "svelte/store";
 
   let file;
   let previewUrl = "";
-  let value = 5;
+
 
   function handleFileChange(event: Event) {
     const target = event.target as HTMLInputElement | null;
@@ -28,9 +29,12 @@
 
   let activeTab = "Links";
   const tabs = ["Youtube", "Documents", "Links"];
-  let checked = false;
+  const checkboxStates = writable({
+  extract: false,
+  preserveLayout: false
+});
 
-  type Payment = {
+  type ActivityLog = {
     id: string;
     status: "Pending" | "Processing" | "Indexed" | "Failed";
     characters: number;
@@ -40,7 +44,7 @@
     date: string;
   };
 
-  const data: Payment[] = [
+  const data: ActivityLog[] = [
     {
       id: "m5gr84i9",
       characters: 316,
@@ -203,25 +207,27 @@
         <div class="font-medium text-sm">Advanced Options</div>
         <div class="flex justify-between">
           <div class="flex items-center space-x-2 w-[50%]">
-            <Checkbox id="terms" bind:checked aria-labelledby="terms-label" />
-            <Label
-              id="terms-label"
-              for="terms"
-              class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-            >
+            <Checkbox
+              id="extract"
+              bind:checked={$checkboxStates.extract}
+              aria-labelledby="extract-label"
+            />
+            <Label id="extract-label" for="extract" class="text-sm font-medium leading-none">
               Extract text from images
             </Label>
           </div>
+
           <div class="flex items-center space-x-2 w-[50%]">
-            <Checkbox id="terms" bind:checked aria-labelledby="terms-label" />
-            <Label
-              id="terms-label"
-              for="terms"
-              class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-            >
+            <Checkbox
+              id="preserveLayout"
+              bind:checked={$checkboxStates.preserveLayout}
+              aria-labelledby="preserve-label"
+            />
+            <Label id="preserve-label" for="preserveLayout" class="text-sm font-medium leading-none">
               Preserve document layout
             </Label>
           </div>
+
         </div>
       </div>
       {:else if tab === "Links"}
@@ -285,24 +291,7 @@
     {/each}
   </Tabs.Root>
 
-  <div class="flex flex-col gap-y-3 pb-8 border-b-2">
-    <div class="flex items-center gap-x-2">
-      <div class="flex items-center space-x-2">
-        <Checkbox id="terms" bind:checked aria-labelledby="terms-label" />
-        <Label
-          id="terms-label"
-          for="terms"
-          class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-        >
-          Select All
-        </Label>
-      </div>
-      <Input
-        type="search"
-        placeholder="Search for items here..."
-        class="pl-8 sm:w-[300px] md:w-[200px] lg:w-[300px] rounded-md"
-      />
-    </div>
+  <div class="mt-4 pb-8 border-b-2">
     <div class="flex flex-col gap-y-1">
       <DataTable {columns} {data} />
     </div>
