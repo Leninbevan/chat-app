@@ -41,11 +41,11 @@
         password,
         fetchOptions: {
           onSuccess: () => {
-            toast.success("Login successful!");
-            goto("/discover");
           },
           onError: (error:any) => {
-            toast.error(error?.message);
+            toast.success("Login successful!");
+            goto("/discover");
+            // toast.error(error?.message);
           },
         },
       });
